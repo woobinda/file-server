@@ -8,6 +8,7 @@ def sha1(stream):						#функция возвращает sha1 хеш, заг�
 	hash_sha1 = hashlib.sha1()
 	for chunk in iter(lambda: stream.read(4096), b""):
 			hash_sha1.update(chunk)
+	stream.seek(0)
 	return hash_sha1.hexdigest()
 
 
@@ -27,7 +28,7 @@ def make_folder_for_file(file_hash):		#функция создает папку 
 	return _dir			#возвращаем путь к директории
 
 
-def get_token(*args):	#генерируем ключ для авторизации входящих запросов и сверки ответов
+def get_token(*args):	#генерируем ключ для авторизации входящего запроса и сверки ответа
 	token = ':'.join(str(arg) for arg in args)		#склевиваем строку из условных ключей
 	return hashlib.md5(token).hexdigest()	#возвращаем md5 хеш
 
@@ -50,9 +51,9 @@ def upload_file():
 			confirm_token = get_token(file_name, file_size, client_ip, args.secret, file_hash)		#токен для подтверждения корректной загрузки
 			response = jsonify({																							
 					"file_name": file_name,																			
-  					"file_size": file_size,
+  					#"file_size": file_size,
   					"file_hash": file_hash,
-  					"confirm_token": confirm_token,
+  					#"confirm_token": confirm_token,
 				})
 			return response
 		return abort(404)
@@ -96,4 +97,4 @@ def get_status():
 
 
 if __name__ == '__main__':
-   	app.run(host='127.0.0.1', port=args.port, threaded=True, debug=True)	#host='0.0.0.0'; threaded=True - рекамендация по запуску приложений без настроенного WSGI
+   	app.run(host='127.0.0.1', port=args.port, threaded=True)	#host='0.0.0.0'; threaded=True - рекамендация по запуску приложений без настроенного WSGI
