@@ -37,23 +37,24 @@ def get_token(*args):	#генерируем ключ для авторизаци
 def upload_file():
 	if request.method == 'POST':
 		file = request.files['file']
-		token = request.form['token']
+		token = request.form['token']			#получаем токен из входящего запроса
 		file_size = get_size(file.stream)
 		if file and token:
 			if hash_algo == 'sha1':				#получаем хеш файла по алгоритму
 				file_hash = sha1(file.stream)
 			file_name = file.filename.encode('utf8')
 			client_ip = request.remote_addr
-			if token != get_token(file_name, file_size, client_ip, args.secret):		#сверяем пришедшей токен с сгенерированым
-				abort(404)
+			if security == 'ON':
+				if token != get_token(file_name, file_size, client_ip, args.secret):		#сверяем пришедшей токен с сгенерированым
+					abort(404)
 			folder = make_folder_for_file(file_hash)		#создаем папку для загрузки файла
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_hash[0], file_hash[1], file_hash))		#сохраняем
 			confirm_token = get_token(file_name, file_size, client_ip, args.secret, file_hash)		#токен для подтверждения корректной загрузки
 			response = jsonify({																							
 					"file_name": file_name,																			
-  					#"file_size": file_size,
+  					"file_size": file_size,
   					"file_hash": file_hash,
-  					#"confirm_token": confirm_token,
+  					"confirm_token": confirm_token,
 				})
 			return response
 		return abort(404)
