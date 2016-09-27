@@ -45,7 +45,7 @@ def upload_file():
 			file_name = file.filename.encode('utf8')
 			client_ip = request.remote_addr
 			if security == 'ON':
-				if token != get_token(file_name, file_size, client_ip, args.secret):		#сверяем пришедшей токен с сгенерированым
+				if token != get_token(file_name, file_size, client_ip, args.secret):		#сверяем пришедшей токен со сгенерированым
 					abort(404)
 			folder = make_folder_for_file(file_hash)		#создаем папку для загрузки файла
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_hash[0], file_hash[1], file_hash))		#сохраняем
@@ -58,16 +58,22 @@ def upload_file():
 				})
 			return response
 		return abort(404)
+	if request.method == 'GET' and security == 'ON':			#если активирован режим security - не показываем форму для загрузок файлов
+		return '''
+		<!doctype html>
+	    <title>Locked</title>
+	    <h1>Locked by security mode</h1>
+	    '''
 	return '''													
-    <!doctype html>
-    <title>Upload new File</title>		
-    <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-      <input type="hidden" name="token" value="ca7938276d84240587df58f99f42310d">
-        <input type=submit value=Upload>
-    </form>
-    '''
+	<!doctype html>
+	<title>Upload new File</title>		
+	<h1>Upload new File</h1>
+	<form action="" method=post enctype=multipart/form-data>
+	<p><input type=file name=file>
+	<input type="hidden" name="token" value="ca7938276d84240587df58f99f42310d">
+	<input type=submit value=Upload>
+	</form>
+	'''
 
 
 @app.route('/file/<file_hash>')
