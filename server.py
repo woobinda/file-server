@@ -44,7 +44,7 @@ def upload_file():
 				file_hash = sha1(file.stream)
 			file_name = file.filename.encode('utf8')
 			client_ip = request.remote_addr
-			if security == 'ON':
+			if tokens == 'ON':
 				if token != get_token(file_name, file_size, client_ip, args.secret):		#сверяем пришедшей токен со сгенерированым
 					abort(404)
 			folder = make_folder_for_file(file_hash)		#создаем папку для загрузки файла
@@ -58,11 +58,11 @@ def upload_file():
 				})
 			return response
 		return abort(404)
-	if request.method == 'GET' and security == 'ON':			#если активирован режим security - не показываем форму для загрузок файлов
+	if request.method == 'GET' and tokens == 'ON':			#если активирован режим tokens - не показываем форму для загрузок файлов
 		return '''
 		<!doctype html>
 	    <title>Locked</title>
-	    <h1>Locked by security mode</h1>
+	    <h1>Locked by tokens mode</h1>
 	    '''
 	return '''													
 	<!doctype html>

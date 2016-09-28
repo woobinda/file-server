@@ -8,14 +8,14 @@ parser.add_argument("--port", default='7000', type=int, help='Port to listen'),
 parser.add_argument("--hash-algo", default='sha1', type=str, help='Hashing algorithm to use'),
 parser.add_argument("--content-dir", default='UPLOADS', type=str, help='Enable folder to upload'),
 parser.add_argument("--secret", default='d41d8cd98f00b204e9800998ecf8427e', type=str, help='secret key'),
-parser.add_argument("--security", default='OFF', type=str, help='Value [ON/OFF], activate or deactivate token system'),			#по умолчанию отключено (OFF)
+parser.add_argument("--tokens", default='ON', type=str, help='Value [ON/OFF], activate or deactivate token system'),			#по умолчанию включено (ON)
 args = parser.parse_args()
 
 port = args.port				#обработка параметров получаемых с консоли
 hash_algo = args.hash_algo
 content_dir = args.content_dir
 secret = args.secret
-security = args.security
+tokens = args.tokens
 
 BASE_DIR = os.path.abspath('.')
 
