@@ -1,4 +1,4 @@
-# Python implementation of File Server for Radioteria. Flask framework. 
+# Python implementation of File Server for Radioteria. Flask.
 
 Server provides POST, GET, and DELETE methods for work with audio files.
 Provides client authentication using a token systems.
