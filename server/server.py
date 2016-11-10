@@ -64,8 +64,8 @@ def upload_file():
                                   args.secret):
                 abort(404)
             make_folder_for_file(file_hash)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_hash[
-                      0], file_hash[1], file_hash))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],
+                                   file_hash[0], file_hash[1], file_hash))
             confirm_token = get_token(file_name, file_size, client_ip,
                                       args.secret, file_hash)
             response = jsonify({
@@ -98,7 +98,7 @@ def get_file(file_hash):
         app.config['UPLOAD_FOLDER'], file_hash[0], file_hash[1])
     if folder:
         return send_from_directory(folder,
-            file_hash), {'Content-Type': 'audio/mpeg; charset=utf-8'}
+                                   file_hash), {'Content-Type': 'audio/mpeg; charset=utf-8'}
     else:
         abort(404)
 
@@ -108,8 +108,8 @@ def delete_file(file_hash):
     """
     Delete requested file
     """
-    file = os.path.join(app.config['UPLOAD_FOLDER'], file_hash[
-                        0], file_hash[1], file_hash)
+    file = os.path.join(app.config['UPLOAD_FOLDER'], file_hash[0],
+                        file_hash[1], file_hash)
     if file:
         os.remove(file)
         return 'remove %s' % file_hash
@@ -126,5 +126,6 @@ def get_status():
     free_space = disc.f_bsize * disc.f_bavail
     return jsonify({'free_space': free_space})
 
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=args.port, threaded=True)
+    app.run(host='0.0.0.0', port=args.port, threaded=True)

@@ -3,7 +3,7 @@ import os
 import argparse
 from flask import Flask
 
-parser = argparse.ArgumentParser()  # настройка принимаемых аргументов
+parser = argparse.ArgumentParser()
 parser.add_argument("--port", default='7000', type=int, help='Port to listen'),
 parser.add_argument("--hash-algo", default='sha1', type=str,
                     help='Hashing algorithm to use'),
@@ -17,13 +17,11 @@ port = args.port
 hash_algo = args.hash_algo
 content_dir = args.content_dir
 secret = args.secret
-
 BASE_DIR = os.path.abspath('.')
 
 if not os.path.exists(os.path.join(BASE_DIR,
                                    content_dir)):
-    # если нету папки 'UPLOADS', в которой будут храниться все загрузки
-    os.mkdir(content_dir)
+    os.mkdir(content_dir)    # if there is no upload folder - create it
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, content_dir)
