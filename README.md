@@ -1,9 +1,14 @@
-# Python implementation of File Server for Radioteria. Flask.
+# Python implementation of File Server for Radioteria.
 
-Server provides POST, GET, and DELETE methods for work with audio files and and sorts the data by directories.
+Server on Flask, that provides files upload to hard disc where server is installed.
+All downloads are placed to the UPLOAD folder, path to which you can specify in the settings.
 
-Server supports configuration by arguments from the console. Client authentication based on token systems.
+Other settings also supports configuration of the arguments from the console. Client authentication based on token systems.
   
-To install all dependencies and run server you can use the console command for Makefile:
+To install all dependencies you can use the console command for Makefile:
+
+$make install
+
+To run application you can use the console command for Makefile:
 
 $make start

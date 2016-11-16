@@ -21,9 +21,9 @@ BASE_DIR = os.path.abspath('.')
 
 if not os.path.exists(os.path.join(BASE_DIR,
                                    content_dir)):
-    os.mkdir(content_dir)    # if there is no upload folder - create it
+    os.mkdir(content_dir)    # if there is no download folder - it will create
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, content_dir)
-# Максимальный размер загружаемых файлов (16 mb)
+# The maximum size of uploaded files (16 mb)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
